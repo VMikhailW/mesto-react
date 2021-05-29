@@ -1,5 +1,5 @@
 import React from "react";
-import Popup from "./PopupWithForm";
+import PopupWithForm from "./PopupWithForm";
 import useValidation from "../hooks/useValidation";
 
 const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
@@ -31,7 +31,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
   }, [isOpen, setInputValue, setIsValid, setValidationMessage]);
 
   return (
-    <Popup name="add" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm name="add" isOpen={isOpen} onClose={onClose}>
       <h2 className="popup__title">Новое место</h2>
       <form
         className={"popup__form form_type_add"}
@@ -104,7 +104,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
           name="submit"
         />
       </form>
-    </Popup>
+    </PopupWithForm>
   );
 };
 

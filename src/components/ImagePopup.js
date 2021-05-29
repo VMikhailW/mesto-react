@@ -1,14 +1,14 @@
 import React from "react";
-import Popup from "./PopupWithForm";
+import PopupWithForm from "./PopupWithForm";
 
 const ImagePopup = ({ card, isOpen, onClose }) => {
   return (
-    <Popup name="picture" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm name="picture" isOpen={isOpen} onClose={onClose}>
       <figure className="popup__figure">
         <img className="popup__image" src={card.link} alt={card.name} />
         <figcaption className="popup__caption">{card.name}</figcaption>
       </figure>
-    </Popup>
+    </PopupWithForm>
   );
 };
 

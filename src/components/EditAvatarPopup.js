@@ -1,5 +1,5 @@
 import React from "react";
-import Popup from "./PopupWithForm";
+import PopupWithForm from "./PopupWithForm";
 import useValidation from "../hooks/useValidation";
 
 const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
@@ -32,7 +32,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
   }, [isOpen, setInputValue, setIsValid, setValidationMessage]);
 
   return (
-    <Popup name="avatar" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm name="avatar" isOpen={isOpen} onClose={onClose}>
       <h2 className="popup__title">Обновить аватар</h2>
       <form
         className={"popup__form form_type_avatar"}
@@ -79,7 +79,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
           name="submit"
         />
       </form>
-    </Popup>
+    </PopupWithForm>
   );
 };
 

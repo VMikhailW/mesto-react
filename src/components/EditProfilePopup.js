@@ -1,5 +1,5 @@
 import React from "react";
-import Popup from "./PopupWithForm";
+import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import useValidation from "../hooks/useValidation";
 
@@ -39,7 +39,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
   }, [currentUser, isOpen, setInputValue, setIsValid, setValidationMessage]);
 
   return (
-    <Popup name="edit" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm name="edit" isOpen={isOpen} onClose={onClose}>
       <h2 className="popup__title">Редактировать профиль</h2>
       <form
         className={"popup__form form_type_edit"}
@@ -115,7 +115,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
           name="submit"
         />
       </form>
-    </Popup>
+    </PopupWithForm>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Popup from "./PopupWithForm";
+import PopupWithForm from "./PopupWithForm";
 
 const DeleteConfirmPopup = ({
   card,
@@ -14,7 +14,7 @@ const DeleteConfirmPopup = ({
   };
 
   return (
-    <Popup name="prevent" isOpen={isOpen} onClose={onClose}>
+    <PopupWithForm name="prevent" isOpen={isOpen} onClose={onClose}>
       <h2 className="popup__title">Вы уверены?</h2>
       <form
         className={"popup__form form_type_prevent"}
@@ -30,7 +30,7 @@ const DeleteConfirmPopup = ({
           value={`${isLoading ? `Удаление...` : `Да`}`}
         />
       </form>
-    </Popup>
+    </PopupWithForm>
   );
 };
 

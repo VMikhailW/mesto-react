@@ -1,6 +1,6 @@
 import React from "react";
 
-const Popup = ({ name, isOpen, onClose, children }) => {
+const PopupWithForm = ({ name, isOpen, onClose, children }) => {
   const handleEscapeClose = (event) => {
     if (event.key === "Escape") {
       onClose();
@@ -48,4 +48,4 @@ const Popup = ({ name, isOpen, onClose, children }) => {
   );
 };
 
-export default Popup;
+export default PopupWithForm;
