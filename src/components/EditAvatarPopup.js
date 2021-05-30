@@ -32,15 +32,15 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
   }, [isOpen, setInputValue, setIsValid, setValidationMessage]);
 
   return (
-    <PopupWithForm name="avatar" isOpen={isOpen} onClose={onClose}>
-      <h2 className="popup__title">Обновить аватар</h2>
-      <form
-        className={"popup__form form_type_avatar"}
-        action="#"
-        name="avatar"
-        onSubmit={handleSubmit}
-        noValidate
-      >
+    <PopupWithForm
+      name="add-avatar"
+      title="Обновить аватар"
+      textButton="Обновить"
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+      isDisabled={!isValid}
+    >
         <div className="popup__cover popup__cover_type_avatar">
           <label className="popup__control">
             <input
@@ -78,7 +78,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
           value={`${isLoading ? `Сохранение...` : `Сохранить`}`}
           name="submit"
         />
-      </form>
+   
     </PopupWithForm>
   );
 };

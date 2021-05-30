@@ -1,6 +1,6 @@
 import React from "react";
 
-const PopupWithForm = ({ name, isOpen, onClose, children }) => {
+const PopupWithForm = ({ name, title, isOpen, onClose, onSubmit, children }) => {
   const handleEscapeClose = (event) => {
     if (event.key === "Escape") {
       onClose();
@@ -42,7 +42,18 @@ const PopupWithForm = ({ name, isOpen, onClose, children }) => {
           type="button"
           onClick={onClose}
         />
-        {children}
+       <h2 className="popup__title">{title}</h2>
+        <form
+            className={`popup__form form_type_${name}`}
+            action="#"
+            name={name}
+            onSubmit={onSubmit}
+            novalidate
+        >
+            <div className="popup__cover">
+                {children}
+            </div>
+        </form>
       </div>
     </section>
   );

@@ -39,15 +39,15 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
   }, [currentUser, isOpen, setInputValue, setIsValid, setValidationMessage]);
 
   return (
-    <PopupWithForm name="edit" isOpen={isOpen} onClose={onClose}>
-      <h2 className="popup__title">Редактировать профиль</h2>
-      <form
-        className={"popup__form form_type_edit"}
-        action="#"
-        name="edit"
-        onSubmit={handleSubmit}
-        noValidate
-      >
+    <PopupWithForm
+    name="popup-profile"
+    title="Редактировать профиль"
+    textButton="Сохранить"
+    isOpen={isOpen}
+    onClose={onClose}
+    onSubmit={handleSubmit}
+    isDisabled={!isValid}
+  >
         <div className="popup__cover">
           <label className="popup__control">
             <input
@@ -114,7 +114,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
           value={`${isLoading ? `Сохранение...` : `Сохранить`}`}
           name="submit"
         />
-      </form>
+  
     </PopupWithForm>
   );
 };

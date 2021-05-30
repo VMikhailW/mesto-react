@@ -14,14 +14,14 @@ const DeleteConfirmPopup = ({
   };
 
   return (
-    <PopupWithForm name="prevent" isOpen={isOpen} onClose={onClose}>
-      <h2 className="popup__title">Вы уверены?</h2>
-      <form
-        className={"popup__form form_type_prevent"}
-        action="#"
-        name="prevent"
-        onSubmit={handleSubmit}
-        noValidate
+    <PopupWithForm
+    name="remove-card"
+    title="Вы уверены?"
+    textButton="Да"
+    isOpen={isOpen}
+    onClose={onClose}
+    onSubmit={handleSubmit}
+  
       >
         <input
           className="button popup__submit"
@@ -29,7 +29,7 @@ const DeleteConfirmPopup = ({
           name="submit"
           value={`${isLoading ? `Удаление...` : `Да`}`}
         />
-      </form>
+  
     </PopupWithForm>
   );
 };

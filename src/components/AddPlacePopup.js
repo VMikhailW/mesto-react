@@ -31,9 +31,8 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
   }, [isOpen, setInputValue, setIsValid, setValidationMessage]);
 
   return (
-    <PopupWithForm name="add" isOpen={isOpen} onClose={onClose}>
-      <h2 className="popup__title">Новое место</h2>
-      <form
+    <PopupWithForm name="add" isOpen={isOpen} onClose={onClose}
+       title="Новое место" 
         className={"popup__form form_type_add"}
         action="#"
         name="add"
@@ -50,6 +49,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
               }`}
               type="text"
               name="name"
+              
               placeholder="Название"
               minLength="1"
               maxLength="30"
@@ -103,7 +103,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
           value={`${isLoading ? `Сохранение...` : `Сохранить`}`}
           name="submit"
         />
-      </form>
+   
     </PopupWithForm>
   );
 };
