@@ -1,15 +1,27 @@
 import React from "react";
-import PopupWithForm from "./PopupWithForm";
 
-const ImagePopup = ({ card, isOpen, onClose }) => {
+function ImagePopup(props) {
   return (
-    <PopupWithForm name="picture" isOpen={isOpen} onClose={onClose}>
-      <figure className="popup__figure">
-        <img className="popup__image" src={card.link} alt={card ? card.name : ''} />
-        <figcaption className="popup__caption">{card ? card.name : ''}</figcaption>
+    <div
+      className={`popup__container popup__container_image ${
+        props.card.link && "popup_opened"
+      }`}
+    >
+      <figure className="popup__image">
+        <button
+          className="popup__close-button popup__close-button_img"
+          onClick={props.onClose}
+          type="button"
+        ></button>
+        <img
+          className="popup__images"
+          src={`${props.card.link}`}
+          alt={props.card.name}
+        />
+        <figcaption className="popup__text">{props.card.name}</figcaption>
       </figure>
-    </PopupWithForm>
+    </div>
   );
-};
+}
 
 export default ImagePopup;
