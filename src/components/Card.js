@@ -23,8 +23,8 @@ const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
     onCardDelete(card);
   };
 
-  const handleClick = (event) => {
-    event.stopPropagation()
+  const handleClick = () => {
+ 
     onCardClick(card);
   };
 
