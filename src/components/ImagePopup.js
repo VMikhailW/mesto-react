@@ -1,27 +1,35 @@
-import React from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-function ImagePopup(props) {
+function ImagePopup ({ card, isOpen, onClose }) {
+  function getImagePopupClasses () {
+    const classes = ['popup popup_type_picture']
+    if (isOpen) classes.push('popup_opened')
+    return classes.join(' ')
+  }
+
   return (
-    <div
-      className={`popup__container popup__container_image ${
-        props.card.link && "popup_opened"
-      }`}
-    >
-      <figure className="popup__image">
+    <div className={getImagePopupClasses()}>
+      <div className="popup__container_type_picture">
         <button
-          className="popup__close-button popup__close-button_img"
-          onClick={props.onClose}
           type="button"
-        ></button>
-        <img
-          className="popup__images"
-          src={`${props.card.link}`}
-          alt={props.card.name}
+          className="popup__close"
+          onClick={onClose}
         />
-        <figcaption className="popup__text">{props.card.name}</figcaption>
-      </figure>
+        <img
+          className="popup__image"
+          src={card.link} alt={`Фотография места ${card.name}`}
+        />
+        <p className="popup__caption">{card.name}</p>
+      </div>
     </div>
-  );
+  )
 }
 
-export default ImagePopup;
+ImagePopup.propTypes = {
+  card: PropTypes.object,
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func
+}
+
+export default ImagePopup

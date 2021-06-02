@@ -30,13 +30,20 @@ function App() {
     promise
       .then((newCard) => {
         setCards(cards => cards.map(
-          c => c.id === card._id ? newCard : c)
-      );
-      })
+          c => {
+              let cmp = c._id === card._id ? 'true' : 'false';
+              console.log(
+                  `${c._id} === ${card._id} => ${cmp}`
+              );
+              return c._id === card._id ? newCard : c;
+          }
+      )
+      )})
       .catch((err) => {
         console.log(`${err}`);
       });
   };
+  
 
   const handleCardDelete = (card) => {
     setIsLoading(true);

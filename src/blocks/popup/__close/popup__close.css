@@ -4,8 +4,8 @@
     background-position: center;
     width: 58px;
     height: 58px;
-    top: -48px;
-    right: -48px;
+    top: 0;
+    right: 500px;
     background-size: contain;
     border: none;
     box-shadow: none;
