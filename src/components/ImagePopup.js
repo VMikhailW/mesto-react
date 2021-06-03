@@ -10,10 +10,10 @@ function ImagePopup ({ card, isOpen, onClose }) {
 
   return (
     <div className={getImagePopupClasses()}>
-      <div className="popup__container_type_picture">
+      <div className="popup__container popup__container_type_picture">
         <button
           type="button"
-          className="popup__close"
+          className="button popup__close opacity"
           onClick={onClose}
         />
         <img
