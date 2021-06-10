@@ -82,7 +82,7 @@ const api = new Api({
     },
 });
 
-export default api;
+export default Api;
 
 //  - получить список всех карточек в виде массива (GET)
 //  - добавить карточку (POST)
