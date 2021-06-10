@@ -2,7 +2,7 @@ class Api {
     constructor({ baseUrl, headers }) {
         this.baseUrl = baseUrl;
         this.headers = headers;
-    }
+    }  
 
     getUserInfo() {
         return fetch(`${this.baseUrl}users/me`, {
