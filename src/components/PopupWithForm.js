@@ -48,7 +48,7 @@ const PopupWithForm = ({ name, title, isOpen, onClose, onSubmit, children }) => 
             action="#"
             name={name}
             onSubmit={onSubmit}
-            novalidate
+            noValidate
         >
             <div className="popup__cover">
                 {children}

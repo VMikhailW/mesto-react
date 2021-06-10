@@ -31,7 +31,7 @@ function App() {
       .then((newCard) => {
         setCards(cards => cards.map(
           c => {
-              let cmp = c._id === card._id ? 'true' : 'false';
+              const cmp = c._id === card._id ? 'true' : 'false';
               console.log(
                   `${c._id} === ${card._id} => ${cmp}`
               );
@@ -105,7 +105,7 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setDeletePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({});
     setImagePopupOpen(false);
   };
 

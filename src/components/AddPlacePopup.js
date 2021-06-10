@@ -35,7 +35,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
        title="Новое место" 
         className={"popup__form form_type_add"}
         action="#"
-        name="add"
         onSubmit={handleSubmit}
         noValidate
       >
