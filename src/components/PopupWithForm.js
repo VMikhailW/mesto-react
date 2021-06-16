@@ -1,6 +1,6 @@
 import React from "react";
 
-const PopupWithForm = ({ name, title, isOpen, onClose, onSubmit, children }) => {
+const PopupWithForm = ({ name, buttonClassName, buttonText, title, isOpen, onClose, onSubmit, children }) => {
   const handleEscapeClose = (event) => {
     if (event.key === "Escape") {
       onClose();
@@ -52,9 +52,16 @@ const PopupWithForm = ({ name, title, isOpen, onClose, onSubmit, children }) => 
         >
             <div className="popup__cover">
                 {children}
+                <input
+                    className={buttonClassName}
+                    type="submit"
+                    value={buttonText}
+                    name="submit"
+                />
             </div>
         </form>
       </div>
+ 
     </section>
   );
 };

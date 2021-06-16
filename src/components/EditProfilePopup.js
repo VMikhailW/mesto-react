@@ -40,6 +40,12 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
 
   return (
     <PopupWithForm
+    buttonClassName={`${
+      isValid.name && isValid.about
+          ? `button popup__submit`
+          : `button popup__submit popup__submit_type_disabled`
+  }`}
+    buttonText={`${isLoading ? `Сохранение...` : `Сохранить`}`}
     name="popup-profile"
     title="Редактировать профиль"
     textButton="Сохранить"
@@ -63,7 +69,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
               placeholder="Имя"
               minLength="2"
               maxLength="20"
-              pattern="^[0-9A-Za-zА-Яа-яЁё\D][A-Za-zА-Яа-яЁё\s\D]*[A-Za-zА-Яа-яЁё\D]$"
+           //   pattern="^[0-9A-Za-zА-Яа-яЁё\D][A-Za-zА-Яа-яЁё\s\D]*[A-Za-zА-Яа-яЁё\D]$"
               required
             />
             <span
@@ -78,11 +84,11 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
           </label>
           <label className="popup__control">
             <input
-              className={`${
-                validationMessage.about
-                  ? `popup__input popup__input_type_about popup__input_type_error`
-                  : `popup__input popup__input_type_about`
-              }`}
+                      className={`${
+                        validationMessage.about
+                          ? `popup__input popup__input_type_about popup__input_type_error`
+                          : `popup__input popup__input_type_about`
+                      }`}
               type="text"
               name="about"
               value={inputValue.about}
@@ -104,16 +110,6 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
             </span>
           </label>
         </div>
-        <input
-          className={`${
-            isValid.name && isValid.about
-              ? `button popup__submit`
-              : `button popup__submit popup__submit_type_disabled`
-          }`}
-          type="submit"
-          value={`${isLoading ? `Сохранение...` : `Сохранить`}`}
-          name="submit"
-        />
   
     </PopupWithForm>
   );

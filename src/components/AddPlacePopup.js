@@ -32,7 +32,13 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
 
   return (
     <PopupWithForm name="add" isOpen={isOpen} onClose={onClose}
-       title="Новое место" 
+        buttonClassName={`${
+            isValid.link && isValid.name
+                ? `button popup__submit`
+                : `button popup__submit popup__submit_type_disabled`
+        }`}
+        buttonText={`${isLoading ? `Сохранение...` : `Сохранить`}`}
+        title="Новое место" 
         className={"popup__form form_type_add"}
         action="#"
         onSubmit={handleSubmit}
@@ -92,16 +98,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
             </span>
           </label>
         </div>
-        <input
-          className={`${
-            isValid.link && isValid.name
-              ? `button popup__submit`
-              : `button popup__submit popup__submit_type_disabled`
-          }`}
-          type="submit"
-          value={`${isLoading ? `Сохранение...` : `Сохранить`}`}
-          name="submit"
-        />
    
     </PopupWithForm>
   );

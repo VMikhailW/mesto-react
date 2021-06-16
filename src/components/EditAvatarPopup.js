@@ -15,13 +15,12 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
     handleInputChange,
     fieldsEnumeration,
   } = useValidation(fields);
-
-  const avatarInputRef = React.useRef(null);
-
+  
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateAvatar({
-      avatar: avatarInputRef.current.value,
+      avatar: event.target.value,
     });
   };
 
@@ -33,6 +32,12 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
 
   return (
     <PopupWithForm
+      buttonClassName={`${
+          isValid.avatar
+              ? `button popup__submit`
+              : `button popup__submit popup__submit_type_disabled`
+      }`}
+      buttonText={`${isLoading ? `Сохранение...` : `Сохранить`}`}
       name="add-avatar"
       title="Обновить аватар"
       textButton="Обновить"
@@ -44,7 +49,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
         <div className="popup__cover popup__cover_type_avatar">
           <label className="popup__control">
             <input
-              ref={avatarInputRef}
+           
               className={`${
                 validationMessage.avatar
                   ? `popup__input popup__input_type_avatar popup__input_type_error`
@@ -57,27 +62,11 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
               onChange={handleInputChange}
               required
             />
-            <span
-              className={`${
-                isValid.avatar
-                  ? `popup__error`
-                  : `popup__error popup__error_type_active`
-              }`}
-            >
+            <span>
               {validationMessage.avatar}
             </span>
           </label>
         </div>
-        <input
-          className={`${
-            isValid.avatar
-              ? `button popup__submit`
-              : `button popup__submit popup__submit_type_disabled`
-          }`}
-          type="submit"
-          value={`${isLoading ? `Сохранение...` : `Сохранить`}`}
-          name="submit"
-        />
    
     </PopupWithForm>
   );
