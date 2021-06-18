@@ -23,6 +23,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
       avatar: event.target.value,
     });
   };
+  
 
   React.useEffect(() => {
     setInputValue(fieldsEnumeration(""));
