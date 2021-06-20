@@ -8,7 +8,14 @@ const PopupWithForm = ({ name, buttonClassName, buttonText, title, isOpen, onClo
   };
 
   React.useEffect(() => {
-    document.addEventListener("keydown", handleEscapeClose, false);
+    const handleEscapeClose = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscapeClose, false);
+    }
 
     return () => {
       document.removeEventListener("keydown", handleEscapeClose, false);

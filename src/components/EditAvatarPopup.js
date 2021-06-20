@@ -4,6 +4,7 @@ import useValidation from "../hooks/useValidation";
 
 const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
   const fields = ["avatar"];
+  const inputRef = React.useRef();
 
   const {
     isValid,
@@ -20,7 +21,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateAvatar({
-      avatar: event.target.value,
+      avatar: inputRef.current.value,
     });
   };
   
@@ -50,7 +51,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
         <div className="popup__cover popup__cover_type_avatar">
           <label className="popup__control">
             <input
-           
+             ref={inputRef}
               className={`${
                 validationMessage.avatar
                   ? `popup__input popup__input_type_avatar popup__input_type_error`
