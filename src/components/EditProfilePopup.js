@@ -1,118 +1,165 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import useValidation from "../hooks/useValidation";
+import React, { useState, useContext, useEffect } from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import PopupWithForm from './PopupWithForm';
 
-const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
-  const fields = ["name", "about"];
-
+const EditProfilePopup = (props) => {
+  // Диструктуризированная переменная с пропсами
   const {
-    isValid,
-    setIsValid,
-    inputValue,
-    setInputValue,
-    validationMessage,
-    setValidationMessage,
-    handleInputChange,
-    fieldsEnumeration,
-  } = useValidation(fields);
+    onUpdateUser,
+    isOpen,
+    onClose
+  } = props;
 
-  const currentUser = React.useContext(CurrentUserContext);
+  // Контекст с данными о пользователе
+  const currentUser = useContext(CurrentUserContext);
 
-  const handleSubmit = (event) => {
-    // Запрещаем браузеру переходить по адресу формы
-    event.preventDefault();
-    // Передаём значения управляемых компонентов во внешний обработчик
-    onUpdateUser({
-      name: inputValue.name,
-      about: inputValue.about,
-    });
+  // Дефолтное значение инпутов
+  const initialData = {
+    author: currentUser.name || '',
+    about: currentUser.about || ''
   };
 
-  React.useEffect(() => {
-    setInputValue({
-      name: currentUser.name || "",
-      about: currentUser.about || "",
-    });
-    setIsValid(fieldsEnumeration(true));
-    setValidationMessage(fieldsEnumeration(""));
-  }, [currentUser, isOpen, setInputValue, setIsValid, setValidationMessage]);
+  // Дефолтное значение валидации
+  const initialInputsValid = {
+    author: false,
+    about: false,
+    form: false
+  }
+
+  // Дефолтное значение ошибок валидации и сабмита
+  const initialErrorsValid = {
+    author: '',
+    about: ''
+  }
+
+  // Стейты компонента
+  const [data, setData] = useState(initialData);
+  const [validations, setValidations] = useState(initialInputsValid);
+  const [errorsValid, setErrorsValid] = useState(initialErrorsValid);
+
+  // --Хук Юз Эффект для отображения актуальных данных о пользователе
+  useEffect(() => {
+    setData(data => ({
+      author: currentUser.name || '',
+      about: currentUser.about || ''
+    }));
+  }, [currentUser]);
+
+  // Функции компонента
+  // --Проверка валидности формы 
+  // --Проверка валидности инпуты
+  // --Ресет формы 
+  // --Закрытие формы
+  // --Сабмит формы
+  const checkFormValid = () => {
+    if (!validations.author || !validations.about) {
+      return setValidations((data) => ({
+        ...data,
+        form: false
+      }))
+    } else {
+      return setValidations((data) => ({
+        ...data,
+        form: true
+      }))
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value, validity, validationMessage } = e.target;
+
+    checkFormValid();
+
+    setData(data => ({
+      ...data,
+      [name]: value,
+    }));
+
+    setValidations(data => ({
+      ...data,
+      [name]: validity.valid,
+    }));
+
+    setErrorsValid(data => ({
+      ...data,
+      [name]: validationMessage,
+    }));
+  }
+
+  const resetForm = () => {
+    setData(initialData);
+    setValidations(initialInputsValid);
+    setErrorsValid(initialErrorsValid);
+  }
+
+  const handleClose = () => {
+    onClose()
+    resetForm()
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    onUpdateUser(data)
+    resetForm()
+  }
 
   return (
     <PopupWithForm
-    buttonClassName={`${
-      isValid.name && isValid.about
-          ? `button popup__submit`
-          : `button popup__submit popup__submit_type_disabled`
-  }`}
-    buttonText={`${isLoading ? `Сохранение...` : `Сохранить`}`}
-    name="popup-profile"
-    title="Редактировать профиль"
-    textButton="Сохранить"
-    isOpen={isOpen}
-    onClose={onClose}
-    onSubmit={handleSubmit}
-    isDisabled={!isValid}
-  >
-        <div className="popup__cover">
-          <label className="popup__control">
-            <input
-              className={`${
-                validationMessage.name
-                  ? `popup__input popup__input_type_name popup__input_type_error`
-                  : `popup__input popup__input_type_name`
-              }`}
-              type="text"
-              name="name"
-              value={inputValue.name}
-              onChange={handleInputChange}
-              placeholder="Имя"
-              minLength="2"
-              maxLength="20"
-           //   pattern="^[0-9A-Za-zА-Яа-яЁё\D][A-Za-zА-Яа-яЁё\s\D]*[A-Za-zА-Яа-яЁё\D]$"
-              required
-            />
-            <span
-              className={`${
-                isValid.name
-                  ? `popup__error`
-                  : `popup__error popup__error_type_active`
-              }`}
-            >
-              {validationMessage.name}
-            </span>
-          </label>
-          <label className="popup__control">
-            <input
-                      className={`${
-                        validationMessage.about
-                          ? `popup__input popup__input_type_about popup__input_type_error`
-                          : `popup__input popup__input_type_about`
-                      }`}
-              type="text"
-              name="about"
-              value={inputValue.about}
-              onChange={handleInputChange}
-              placeholder="Занятие"
-              minLength="2"
-              maxLength="200"
-              // pattern="^[A-Za-zА-Яа-яЁё\D][A-Za-zА-Яа-яЁё\s\D]*[A-Za-zА-Яа-яЁё\D]$"
-              required
-            />
-            <span
-              className={`${
-                isValid.about
-                  ? `popup__error`
-                  : `popup__error popup__error_type_active`
-              }`}
-            >
-              {validationMessage.about}
-            </span>
-          </label>
-        </div>
-  
+      name="popup-profile"
+      title="Редактировать профиль"
+      textButton="Сохранить"
+      isOpen={isOpen}
+      onClose={handleClose}
+      onSubmit={handleSubmit}
+      validationForm={validations.form}
+    >
+      <input
+        className={`popup__input popup__input_type_author 
+        ${!validations.author
+            ? 'popup__input_state_invalid'
+            : ''
+          }`}
+        type="text"
+        placeholder="Ваше имя"
+        id="popup-input-name"
+        name='author'
+        minLength="2"
+        maxLength="40"
+        value={data.author}
+        onChange={handleChange}
+        required
+      />
+      <span
+        id="popup-input-name-error"
+        className="popup__error">
+        {errorsValid.author}
+      </span>
+
+      <input
+        className={`popup__input popup__input_type_status 
+        ${!validations.about
+            ? 'popup__input_state_invalid'
+            : ''
+          }`}
+        type="text"
+        placeholder="Расскажите о себе"
+        id="popup-input-status"
+        name='about'
+        minLength="2"
+        maxLength="200"
+        value={data.about}
+        onChange={handleChange}
+        required
+      />
+      <span
+        id="popup-input-status-error"
+        className="popup__error">
+        {errorsValid.about}
+      </span>
+
     </PopupWithForm>
   );
-};
+}
 
 export default EditProfilePopup;

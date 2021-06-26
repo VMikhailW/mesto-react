@@ -1,77 +1,128 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
-import useValidation from "../hooks/useValidation";
+import React, { useState } from 'react';
+import PopupWithForm from './PopupWithForm';
 
-const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
-  const fields = ["avatar"];
-  const inputRef = React.useRef();
-
+const EditAvatarPopup = (props) => {
+  // Диструктуризированная переменная с пропсами
   const {
-    isValid,
-    setIsValid,
-    inputValue,
-    setInputValue,
-    validationMessage,
-    setValidationMessage,
-    handleInputChange,
-    fieldsEnumeration,
-  } = useValidation(fields);
-  
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onUpdateAvatar({
-      avatar: inputRef.current.value,
-    });
-  };
-  
+    onUpdateAvatar,
+    isOpen,
+    onClose
+  } = props;
 
-  React.useEffect(() => {
-    setInputValue(fieldsEnumeration(""));
-    setIsValid(fieldsEnumeration(false));
-    setValidationMessage(fieldsEnumeration(""));
-  }, [isOpen, setInputValue, setIsValid, setValidationMessage]);
+  // Дефолтное значение инпутов
+  const initialData = {
+    avatar: ''
+  };
+
+  // Дефолтное значение валидации
+  const initialInputsValid = {
+    avatar: false,
+    form: false
+  }
+
+  // Дефолтное значение ошибок валидации и сабмита
+  const initialErrorsValid = {
+    avatar: ''
+  }
+
+  // Стейты компонента
+  const [data, setData] = useState(initialData);
+  const [validations, setValidations] = useState(initialInputsValid);
+  const [errorsValid, setErrorsValid] = useState(initialErrorsValid);
+
+  // Функции компонента
+  // --Проверка валидности формы 
+  // --Проверка валидности инпуты
+  // --Ресет формы 
+  // --Закрытие формы
+  // --Сабмит формы 
+  const checkFormValid = () => {
+    if (!validations.avatar) {
+      return setValidations((data) => ({
+        ...data,
+        form: false
+      }))
+    } else {
+      return setValidations((data) => ({
+        ...data,
+        form: true
+      }))
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value, validity, validationMessage } = e.target;
+
+    checkFormValid();
+
+    setData(data => ({
+      ...data,
+      [name]: value,
+    }));
+
+    setValidations(data => ({
+      ...data,
+      [name]: validity.valid,
+    }));
+
+    setErrorsValid(data => ({
+      ...data,
+      [name]: validationMessage,
+    }));
+  }
+
+  const resetForm = () => {
+    setData(initialData);
+    setValidations(initialInputsValid);
+    setErrorsValid(initialErrorsValid);
+  }
+
+  const handleClose = () => {
+    onClose()
+    resetForm()
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    onUpdateAvatar(data)
+    resetForm();
+  }
 
   return (
     <PopupWithForm
-      buttonClassName={`${
-          isValid.avatar
-              ? `button popup__submit`
-              : `button popup__submit popup__submit_type_disabled`
-      }`}
-      buttonText={`${isLoading ? `Сохранение...` : `Сохранить`}`}
       name="add-avatar"
       title="Обновить аватар"
       textButton="Обновить"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       onSubmit={handleSubmit}
-      isDisabled={!isValid}
+      validationForm={validations.form}
     >
-        <div className="popup__cover popup__cover_type_avatar">
-          <label className="popup__control">
-            <input
-             ref={inputRef}
-              className={`${
-                validationMessage.avatar
-                  ? `popup__input popup__input_type_avatar popup__input_type_error`
-                  : `popup__input popup__input_type_avatar`
-              }`}
-              type="url"
-              name="avatar"
-              value={inputValue.avatar}
-              placeholder="Ссылка на картинку"
-              onChange={handleInputChange}
-              required
-            />
-            <span>
-              {validationMessage.avatar}
-            </span>
-          </label>
-        </div>
-   
+      <input
+        className={`popup__input popup__input_type_photo 
+        ${!validations.avatar
+            ? ('popup__input_state_invalid')
+            : ('')
+          }`}
+        type="url"
+        placeholder="Ссылка на аватар"
+        name='avatar'
+        id="popup-input-url-avatar"
+        onChange={handleChange}
+        minLength="7"
+        maxLength="300"
+        value={data.avatar}
+        required
+      />
+      <span
+        id="popup-input-url-avatar-error"
+        className="popup__error">
+        {errorsValid.avatar}
+      </span>
     </PopupWithForm>
   );
-};
+}
 
 export default EditAvatarPopup;
+

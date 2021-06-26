@@ -1,17 +1,11 @@
-.header__logo {
-    display: block;
-    max-width: 143px;
-    max-height: 34px;
+@media screen and (max-width: 915px) {
+  .header__logo {
+    margin-left: 27px;
+  }
 }
 
-@media screen and (max-width: 660px){
-    .header__logo {
-        max-width: 122.5px;
-    }
-}
-
-@media screen and (max-width: 425px){
-    .header__logo {
-        max-width: 102.5px;
-    }
+@media screen and (max-width: 373px) {
+  .header__logo {
+    max-width: 104px;
+  }
 }

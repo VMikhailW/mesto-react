@@ -1,106 +1,153 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
-import useValidation from "../hooks/useValidation";
+import React, { useState } from 'react';
+import PopupWithForm from './PopupWithForm';
 
-const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
-  const fields = ["name", "link"];
-
+const AddPlacePopup = (props) => {
+  // Диструктуризированная переменная с пропсами
   const {
-    isValid,
-    setIsValid,
-    inputValue,
-    setInputValue,
-    validationMessage,
-    setValidationMessage,
-    handleInputChange,
-    fieldsEnumeration,
-  } = useValidation(fields);
+    onAddPlace,
+    isOpen,
+    onClose
+  } = props;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onAddPlace({
-      name: inputValue.name,
-      link: inputValue.link,
-    });
+  // Дефолтное значение инпутов
+  const initialData = {
+    name: '',
+    link: ''
   };
 
-  React.useEffect(() => {
-    setInputValue(fieldsEnumeration(""));
-    setIsValid(fieldsEnumeration(false));
-    setValidationMessage(fieldsEnumeration(""));
-  }, [isOpen, setInputValue, setIsValid, setValidationMessage]);
+  // Дефолтное значение валидации
+  const initialInputsValid = {
+    name: false,
+    link: false,
+    form: false
+  }
+
+  // Дефолтное значение ошибок валидации и сабмита
+  const initialErrorsValid = {
+    name: '',
+    link: ''
+  }
+
+  // Стейты компонента
+  const [data, setData] = useState(initialData);
+  const [validations, setValidations] = useState(initialInputsValid);
+  const [errorsValid, setErrorsValid] = useState(initialErrorsValid);
+
+  // Функции компонента
+  // --Проверка валидности формы 
+  // --Проверка валидности инпуты
+  // --Ресет формы 
+  // --Закрытие формы
+  // --Сабмит формы 
+  const checkFormValid = () => {
+    if (!validations.name || !validations.link) {
+      return setValidations((data) => ({
+        ...data,
+        form: false
+      }))
+    } else {
+      return setValidations((data) => ({
+        ...data,
+        form: true
+      }))
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value, validity, validationMessage } = e.target;
+
+    checkFormValid();
+
+    setData(data => ({
+      ...data,
+      [name]: value,
+    }));
+
+    setValidations(data => ({
+      ...data,
+      [name]: validity.valid,
+    }));
+
+    setErrorsValid(data => ({
+      ...data,
+      [name]: validationMessage,
+    }));
+  }
+
+  const resetForm = () => {
+    setData(initialData);
+    setValidations(initialInputsValid);
+    setErrorsValid(initialErrorsValid);
+  }
+
+  const handleClose = () => {
+    onClose()
+    resetForm()
+  }
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    onAddPlace(data)
+    resetForm()
+  }
 
   return (
-    <PopupWithForm name="add" isOpen={isOpen} onClose={onClose}
-        buttonClassName={`${
-            isValid.link && isValid.name
-                ? `button popup__submit`
-                : `button popup__submit popup__submit_type_disabled`
-        }`}
-        buttonText={`${isLoading ? `Сохранение...` : `Сохранить`}`}
-        title="Новое место" 
-        className={"popup__form form_type_add"}
-        action="#"
-        onSubmit={handleSubmit}
-        noValidate
-      >
-        <div className="popup__cover">
-          <label className="popup__control">
-            <input
-              className={`${
-                validationMessage.name
-                  ? `popup__input popup__input_type_title popup__input_type_error`
-                  : `popup__input popup__input_type_title`
-              }`}
-              type="text"
-              name="name"
-              
-              placeholder="Название"
-              minLength="1"
-              maxLength="30"
-              pattern="^[A-Za-zА-Яа-яЁё\D][A-Za-zА-Яа-яЁё\s\D]*[A-Za-zА-Яа-яЁё\D]$"
-              required
-              value={inputValue.name}
-              onChange={handleInputChange}
-            />
-            <span
-              className={`${
-                isValid.name
-                  ? `popup__error`
-                  : `popup__error popup__error_type_active`
-              }`}
-            >
-              {validationMessage.name}
-            </span>
-          </label>
-          <label className="popup__control">
-            <input
-              className={`${
-                validationMessage.link
-                  ? `popup__input popup__input_type_link popup__input_type_error`
-                  : `popup__input popup__input_type_link`
-              }`}
-              type="url"
-              name="link"
-              placeholder="Ссылка на картинку"
-              required
-              value={inputValue.link}
-              onChange={handleInputChange}
-            />
-            <span
-              className={`${
-                isValid.link
-                  ? `popup__error`
-                  : `popup__error popup__error_type_active`
-              }`}
-            >
-              {validationMessage.link}
-            </span>
-          </label>
-        </div>
-   
+    <PopupWithForm
+      name="add-card"
+      title="Новое место"
+      textButton="Создать"
+      isOpen={isOpen}
+      onClose={handleClose}
+      onSubmit={handleSubmit}
+      validationForm={validations.form}
+    >
+      <input
+        className={`popup__input popup__input_type_place-name 
+        ${!validations.name
+            ? ('popup__input_state_invalid')
+            : ('')
+          }`}
+        type="text"
+        placeholder="Название"
+        name="name"
+        id="popup-input-place-name"
+        minLength="2"
+        maxLength="30"
+        value={data.name}
+        onChange={handleChange}
+        required
+      />
+      <span
+        id="popup-input-place-name-error"
+        className="popup__error">
+        {errorsValid.name}
+      </span>
+
+      <input
+        className={`popup__input popup__input_type_photo 
+        ${!validations.link
+            ? ('popup__input_state_invalid')
+            : ('')
+          }`}
+        type="url"
+        placeholder="Ссылка на картинку"
+        id="popup-input-url"
+        name="link"
+        minLength="7"
+        maxLength="300"
+        value={data.link}
+        onChange={handleChange}
+        required
+      />
+      <span
+        id="popup-input-url-error"
+        className="popup__error">
+        {errorsValid.link}
+      </span>
     </PopupWithForm>
   );
-};
+}
 
 export default AddPlacePopup;

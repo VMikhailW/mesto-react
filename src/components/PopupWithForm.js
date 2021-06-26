@@ -1,76 +1,46 @@
-import React from "react";
+import React from 'react';
 
-const PopupWithForm = ({ name, buttonClassName, buttonText, title, isOpen, onClose, onSubmit, children }) => {
-  const handleEscapeClose = (event) => {
-    if (event.key === "Escape") {
-      onClose();
-    }
-  };
-
-  React.useEffect(() => {
-    const handleEscapeClose = (event) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscapeClose, false);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscapeClose, false);
-    };
-  }, [isOpen]);
-
-  const handleOverlayClose = (event) => {
-    if (event.target === event.currentTarget && isOpen) {
-      onClose();
-    }
-  };
+const PopupWithForm = (props) => {
+  const {
+    children,
+    name,
+    title,
+    textButton,
+    isOpen,
+    onClose,
+    onSubmit,
+    validationForm
+  } = props;
 
   return (
-    <section
-      className={`${
-        isOpen
-          ? `popup popup_type_${name} popup_opened`
-          : `popup popup_type_${name}`
-      }`}
-      onMouseUp={handleOverlayClose}
-    >
-      <div
-        className={`${
-          name === "picture"
-            ? `popup__container popup__container_type_picture`
-            : `popup__container`
-        }`}
-      >
+    <section className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
+      <div className="popup__container">
         <button
-          className="button popup__close opacity"
+          className="button popup__button-close"
           type="button"
           onClick={onClose}
         />
-       <h2 className="popup__title">{title}</h2>
+        <h2 className="popup__title">{title}</h2>
         <form
-            className={`popup__form form_type_${name}`}
-            action="#"
-            name={name}
-            onSubmit={onSubmit}
-            noValidate
+          className={"popup__form"}
+          name={name}
+          id={name}
+          onSubmit={onSubmit}
         >
-            <div className="popup__cover">
-                {children}
-                <input
-                    className={buttonClassName}
-                    type="submit"
-                    value={buttonText}
-                    name="submit"
-                />
-            </div>
+          {children}
+          <button
+            className={`button popup__button-submit 
+            ${!validationForm
+                ? 'popup__button-submit_invalid'
+                : ''
+              }`}
+            type={"submit"}>
+            {textButton}
+          </button>
         </form>
       </div>
- 
     </section>
   );
-};
+}
 
 export default PopupWithForm;
