@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 const AddPlacePopup = (props) => {
@@ -72,7 +72,12 @@ const AddPlacePopup = (props) => {
       ...data,
       [name]: validationMessage,
     }));
+
   }
+
+  useEffect(() => {
+    checkFormValid();
+  }, [errorsValid])
 
   const resetForm = () => {
     setData(initialData);
@@ -84,14 +89,15 @@ const AddPlacePopup = (props) => {
     onClose()
     resetForm()
   }
-
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
     onAddPlace(data)
     resetForm()
   }
+
+
 
   return (
     <PopupWithForm

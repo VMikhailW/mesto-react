@@ -43,8 +43,10 @@ const EditProfilePopup = (props) => {
       author: currentUser.name || '',
       about: currentUser.about || ''
     }));
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
+
+  
   // Функции компонента
   // --Проверка валидности формы 
   // --Проверка валидности инпуты
@@ -85,6 +87,10 @@ const EditProfilePopup = (props) => {
       [name]: validationMessage,
     }));
   }
+
+  useEffect(() => {
+    checkFormValid();
+  }, [errorsValid])
 
   const resetForm = () => {
     setData(initialData);

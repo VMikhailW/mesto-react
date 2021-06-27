@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 const EditAvatarPopup = (props) => {
@@ -71,11 +71,17 @@ const EditAvatarPopup = (props) => {
     }));
   }
 
+  useEffect(() => {
+    checkFormValid();
+  }, [errorsValid])
+
   const resetForm = () => {
     setData(initialData);
     setValidations(initialInputsValid);
     setErrorsValid(initialErrorsValid);
   }
+
+  
 
   const handleClose = () => {
     onClose()
